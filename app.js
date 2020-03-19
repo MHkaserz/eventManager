@@ -14,18 +14,40 @@ const app = express();
 // Prepare app tp use JSON funcionalities
 app.use(bodyParser.json());
 
+// Constant for testing without a Database
+const events = [];
+
 // Middleware functions
 app.use(
 	'/graphql', 
 	graphQLHttp({
 
 		schema: buildSchema(`
+			type Event {
+				_id: ID!
+				title: String!
+				description: String!
+				price: Float!
+				date: String!
+				owner: Int!
+				category: String
+			}
+
+			input EventInput {
+				title: String!
+				description: String!
+				price: Float!
+				date: String!
+				owner: Int!
+				category: String
+			}
+
 			type RootQuery {
-				events: [String!]!
+				events: [Event!]!
 			}
 
 			type RootMutation {
-				createEvent(name: String): String
+				createEvent(eventInput: EventInput): Event
 			}
 
 			schema {
@@ -36,12 +58,25 @@ app.use(
 
 		rootValue: {
 			events: () => {
-				return ['One', 'Two', 'Three'];
+				return events;
 			},
 
 			createEvent: (args) => {
-				const eventName = args.name;
-				return eventName;
+				const event = {
+					_id: Math.random().toString(),
+					title: args.eventInput.title,
+					description: args.eventInput.description,
+					price: +args.eventInput.price,
+					date: args.eventInput.date,
+					owner: args.eventInput.owner,
+					category: args.eventInput.category
+				};
+
+				// Put the created event in the testing array
+				events.push(event);
+				return event;
+
+				// TODO: Send the event to the Database
 			}
 		},
 
