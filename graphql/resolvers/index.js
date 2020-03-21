@@ -7,6 +7,7 @@ const User = require('../../models/user');
 
 // Merging functions
 const events = async eventIds => {
+	
   	try {
 
     	const events = await Event.find( { _id: { $in: eventIds } } );
@@ -23,6 +24,7 @@ const events = async eventIds => {
 };
 
 const user = async userId => {
+
   	try {
 
     	const user = await User.findById(userId);
@@ -39,6 +41,7 @@ const user = async userId => {
 // rootValue
 module.exports = {
   events: async () => {
+
     try {
 
       	const events = await Event.find();
