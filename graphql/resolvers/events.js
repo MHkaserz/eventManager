@@ -1,5 +1,5 @@
 // Imports
-const { transformEvent } = require('./merge');
+const { transformEvent } = require('./transform');
 
 // DB Models 
 const Event = require('../../models/event');

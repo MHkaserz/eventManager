@@ -1,6 +1,6 @@
 // Imports
 const bcrypt = require('bcryptjs');
-const { transformUser } = require("./merge");
+const { transformUser } = require("./transform");
 
 // DB Models 
 const User = require('../../models/user');
