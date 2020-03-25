@@ -7,7 +7,10 @@ const Event = require('../../models/event');
 
 // rootValue
 module.exports = {
-  	bookings: async () => {
+  	bookings: async (args, req) => {
+        // Check authentication
+        if(!req.isAuth) { throw new Error('Denied!'); }
+
     	try {
       		const bookings = await Booking.find();
       		return bookings.map(booking => {
@@ -16,7 +19,10 @@ module.exports = {
     	} catch (err) { throw err; }
   	},
 
-  	bookEvent: async args => {
+  	bookEvent: async (args, req) => {
+        // Check authentication
+        if(!req.isAuth) { throw new Error('Denied!'); }
+
     	try {
       		// TODO: Handle if booking already exists
 
@@ -24,7 +30,7 @@ module.exports = {
       		const fetchedEvent = await Event.findOne( { _id: args.eventId } );
       		const booking = new Booking({
 
-        		bookBy:     '5e7576e2a848053c5c97a65b', // TODO: get the owner dynamically
+        		bookBy:     req.userId,
         		bookFor:    fetchedEvent
 
       	});
@@ -34,7 +40,10 @@ module.exports = {
     	} catch (err) { throw err; }
   	},
 
-  	cancelBooking: async args => {
+  	cancelBooking: async (args, req) => {
+        // Check authentication
+        if(!req.isAuth) { throw new Error('Denied!'); }
+
     	try {
       		// TODO: Handle if booking doesn't exist
 

@@ -1,6 +1,7 @@
 // Imports
 const express = require('express');
 const bodyParser = require('body-parser');
+const isAuth = require('./middleware/isauth');
 const graphQLSchema = require('./graphql/schema/index');
 const graphQLResolvers = require('./graphql/resolvers/index');
 
@@ -17,6 +18,8 @@ const app = express();
 app.use(bodyParser.json());
 
 // Middleware functions
+app.use(isAuth);
+
 app.use(
 	'/graphql', 
 	graphQLHttp({

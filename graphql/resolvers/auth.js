@@ -1,5 +1,6 @@
 // Imports
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { transformUser } = require("./transform");
 
 // DB Models 
@@ -29,5 +30,23 @@ module.exports = {
 		return transformUser(result);
 
     } catch (err) { throw err; }
+  },
+
+  login: async args => {
+  		try{
+  			// Handle if user doesn't exist
+  			const user = await User.findOne({ email: args.email });
+  			if (!user) { throw new Error('User doesn\'t exist'); }
+
+  			// Check the password, then create a token to let the user log in
+  			const result = await bcrypt.compare(args.password, user.password);
+  			if(!result) { throw new Error('The user credentials you entered are invalid'); }
+
+  			const token = jwt.sign({userId: user.id, email: user.email}, 'mhkaserztokensecurity', {
+  				expiresIn: '1h'
+  			});
+
+  			return { userId: user.id, token: token, tokenExpiration: 1 }
+  		} catch (err) { throw err; }
   }
 };
