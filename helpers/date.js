@@ -1,4 +1,4 @@
-// Date helpers
+// Date manipulation function #toISOString
 exports.dateToString = date => {
 	return new Date(date).toISOString();
 }
