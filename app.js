@@ -42,7 +42,7 @@ const db = 'mongodb+srv://' + `${process.env.MONGO_USER}` +
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
 		// Listening on a local port if the connection to the DB succeeds 
-		app.listen(3000);
+		app.listen(8000);
 	}).catch(err => {
 		// TODO: Try to reconnect - Show a page if ultimately failed to reconnect
 		throw err; 
