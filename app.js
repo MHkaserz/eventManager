@@ -14,12 +14,26 @@ const mongoose = require('mongoose');
 // Start the app with the express default function
 const app = express();
 
+// Middleware functions
+
 // Prepare app to use JSON funcionalities
 app.use(bodyParser.json());
 
-// Middleware functions
+// Allow cross origin requests
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+	if (req.method === 'OPTIONS') {
+	  return res.sendStatus(200);
+	}
+	next();
+});
+
+// Check authorization 
 app.use(isAuth);
 
+// API
 app.use(
 	'/graphql', 
 	graphQLHttp({
