@@ -10,7 +10,7 @@ const User = require('../../models/user');
 module.exports = {
   	createUser: async args => {
     	try {
-		    // Handle if inputs exists in the Database
+		    // Handle if the user inputs exist in the Database
 		    const existingUser = await User.findOne({ email: args.userInput.email });
 		    if (existingUser) { throw new Error('Another user registered with this email.'); }
 

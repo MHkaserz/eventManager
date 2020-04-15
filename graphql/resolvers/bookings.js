@@ -24,7 +24,9 @@ module.exports = {
         if(!req.isAuth) { throw new Error('Denied!'); }
 
     	try {
-      		// TODO: Handle if booking already exists
+            // Handle if the booking exist in the Database
+            const fetchedBooking = await Booking.findOne({ bookFor: args.eventId, bookBy: req.userId });
+            if(fetchedBooking) { throw new Error('You already booked this event!'); }
 
       		// Find the event in the DB then create a new booking with its ID for the user ID
       		const fetchedEvent = await Event.findOne( { _id: args.eventId } );
