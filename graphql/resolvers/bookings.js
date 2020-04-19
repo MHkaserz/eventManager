@@ -12,7 +12,7 @@ module.exports = {
         if(!req.isAuth) { throw new Error('Denied!'); }
 
     	try {
-      		const bookings = await Booking.find();
+      		const bookings = await Booking.find({ bookBy: req.userId });
       		return bookings.map(booking => {
         		return transformBooking(booking);
       		})
