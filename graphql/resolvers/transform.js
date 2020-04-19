@@ -33,7 +33,7 @@ const transformUser = user => {
         ...user._doc,
         birth: dateToString(user._doc.birth),
         // Populate the user's event
-        ownes: events(this, user.ownes),
+        ownes: events.bind(this, user.ownes),
         // Password queries should return null
         password: null 
     };
