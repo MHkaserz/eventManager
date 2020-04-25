@@ -33,16 +33,17 @@ module.exports = {
 	    let createdEvent;
 
       	try {
-      		  // Send the event to the Database, then add it to its owner in Users
-      		  const result = await event.save();
-      		  createdEvent = transformEvent(result);
+      		    // Send the event to the Database, then add it to its owner in Users
+      		    const result = await event.save();
+      		    createdEvent = transformEvent(result);
 
-      		  const owner = await User.findById(req.userId); // TODO: get the owner dynamically
+      		    const owner = await User.findById(req.userId);
 
-  			    if (!owner) { throw new Error('User doesn\'t exist'); }
-  			    owner.ownes.push(event);
-  			    await owner.save();
-  			    return createdEvent;
+    		    if (!owner) { throw new Error('User doesn\'t exist'); }
+    		    owner.ownes.push(event);
+    		    await owner.save();
+
+    		    return createdEvent;
       	} catch (err) { throw err; }
   	}
 };
